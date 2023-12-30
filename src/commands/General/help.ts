@@ -8,11 +8,9 @@ import type { Message } from 'discord.js';
 })
 export class UserCommand extends Command {
 	public override async messageRun(message: Message) {
-		//const commandsByCategory = await UserCommand.fetchCommands(message);
+	
 		
 
-		//const content = commandCategories.join('\n');
-
-		return message.channel.send(`Help`);
+		return message.reply(`Help`);
 	}
 }

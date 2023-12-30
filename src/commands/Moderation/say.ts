@@ -1,11 +1,12 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { Command } from '@sapphire/framework';
-import { TextBasedChannel } from 'discord.js';
+import { PermissionFlagsBits, TextBasedChannel } from 'discord.js';
 import { EmbedManager } from '../../lib/embeds';
 
 @ApplyOptions<Command.Options>({
 	name: 'say',
-	description: 'امر'
+	description: 'امر',
+	requiredUserPermissions: [PermissionFlagsBits.ManageChannels]
 })
 export class UserCommand extends Command {
 	public override registerApplicationCommands(registry: Command.Registry) {

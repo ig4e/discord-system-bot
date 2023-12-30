@@ -12,7 +12,7 @@ export class UserCommand extends Command {
 	public override async messageRun(message: Message) {
 		const emebedManager = new EmbedManager({ message });
 
-		const pongMsg = await message.channel.send({ embeds: [emebedManager.info({ description: `جارى التحميل...` })] });
+		const pongMsg = await message.reply({ embeds: [emebedManager.info({ description: `جارى التحميل...` })] });
 
 		return pongMsg.edit({
 			embeds: [

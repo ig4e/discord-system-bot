@@ -13,9 +13,9 @@ export class UserCommand extends Command {
 		const emebedManager = new EmbedManager({ message });
 
 		try {
-			const user = await args.pick('user').catch(() => {
-				const prefix = this.container.client.fetchPrefix(message);
-				message.channel.send({ embeds: [emebedManager.error({ description: `استعمال خاطئ\n\`${prefix}come @mention\`` })] });
+			const user = await args.pick('user').catch(async () => {
+				const prefix = await this.container.client.fetchPrefix(message);
+				message.reply({ embeds: [emebedManager.error({ description: `استعمال خاطئ\n\`${prefix}come @mention\`` })] });
 
 				return null;
 			});
@@ -31,9 +31,9 @@ export class UserCommand extends Command {
 				]
 			});
 
-			return message.channel.send({ embeds: [emebedManager.success({ description: 'تم النداء' })] });
+			return message.reply({ embeds: [emebedManager.success({ description: 'تم النداء' })] });
 		} catch (error) {
-			return message.channel.send({ embeds: [emebedManager.error({ description: 'حدث خطأ' })] });
+			return message.reply({ embeds: [emebedManager.error({ description: 'حدث خطأ' })] });
 		}
 	}
 }

@@ -2,24 +2,10 @@ import { ApplyOptions } from '@sapphire/decorators';
 import { Command } from '@sapphire/framework';
 import { PresenceStatusData } from 'discord.js';
 import { EmbedManager } from '../../lib/embeds';
-
-/*
-
- Playing = 0,
-
- Streaming = 1,
-
- Listening = 2,
-
- Watching = 3,
-
- Custom = 4,
-
- Competing = 5
-*/
+import { db } from '../../db';
 
 @ApplyOptions<Command.Options>({
-	description: 'A basic slash command',
+	description: 'تغيير حالة البوت',
 	preconditions: ['OwnerOnly']
 })
 export class UserCommand extends Command {
@@ -64,9 +50,17 @@ export class UserCommand extends Command {
 		const status = interaction.options.getString('status', true) as PresenceStatusData;
 		const type = interaction.options.getInteger('type', true);
 
+		await db.bots.findByIdAndUpdate(this.container.client.user!.id, {
+			status: {
+				name: name,
+				type: type,
+				status: status
+			}
+		});
+
 		this.container.client.user?.setPresence({
 			status: status,
-			activities: [{ name: name, type: type, url: type === 1 ? "https://www.twitch.tv/shroud" : undefined }]
+			activities: [{ name: name, type: type, url: type === 1 ? 'https://www.twitch.tv/shroud' : undefined }]
 		});
 
 		return interaction.reply({ embeds: [emebedManager.success({ description: `تم تغيير حالة البوت بنجاح` })] });

@@ -1,13 +1,28 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { Command } from '@sapphire/framework';
-import type { Message } from 'discord.js';
+import { EmbedManager } from '../../lib/embeds';
 
 @ApplyOptions<Command.Options>({
-	description: 'A basic command',
+	name: 'set-name',
+	description: 'أمر تغيير الاسم',
 	preconditions: ['OwnerOnly']
 })
 export class UserCommand extends Command {
-	public override async messageRun(message: Message) {
-		return message.channel.send('Hello world!');
+	public override registerApplicationCommands(registry: Command.Registry) {
+		registry.registerChatInputCommand((builder) =>
+			builder //
+				.setName(this.name)
+				.setDescription(this.description)
+				.addStringOption((option) => option.setName('name').setDescription('أسم البوت').setRequired(true))
+		);
+	}
+
+	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+		const embedManager = new EmbedManager({ interaction });
+		const name = interaction.options.getString('name', true);
+
+		await this.container.client.user?.setUsername(name);
+
+		await interaction.reply({ embeds: [embedManager.success({ description: `تم تغيير اسم البوت بنجاح` })] });
 	}
 }

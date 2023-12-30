@@ -7,6 +7,15 @@ import {
 } from '@sapphire/framework';
 import { cyan } from 'colorette';
 import type { APIUser, Guild, User } from 'discord.js';
+import { ApplyStatus } from '../db/models/apply';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/ar';
+
+dayjs.extend(relativeTime);
+dayjs.locale('ar');
+
+export { dayjs };
 
 export function logSuccessCommand(payload: ContextMenuCommandSuccessPayload | ChatInputCommandSuccessPayload | MessageCommandSuccessPayload): void {
 	let successLoggerData: ReturnType<typeof getSuccessLoggerData>;
@@ -44,4 +53,22 @@ function getAuthorInfo(author: User | APIUser) {
 function getGuildInfo(guild: Guild | null) {
 	if (guild === null) return 'Direct Messages';
 	return `${guild.name}[${cyan(guild.id)}]`;
+}
+
+export function translateApplyStatus(status: ApplyStatus) {
+	let translatedStatus = 'غير معروف';
+
+	switch (status) {
+		case ApplyStatus.Pending:
+			translatedStatus = 'قيد الانتظار';
+			break;
+		case ApplyStatus.Accepted:
+			translatedStatus = 'مقبول';
+			break;
+		case ApplyStatus.Denied:
+			translatedStatus = 'مرفوض';
+			break;
+	}
+
+	return translatedStatus;
 }
