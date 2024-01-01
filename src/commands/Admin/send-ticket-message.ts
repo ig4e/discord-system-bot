@@ -16,7 +16,7 @@ export class UserCommand extends Command {
 		const embed = embedManager
 			.primary({
 				enableTitleIcon: false,
-				title: 'هنا لخدمتك',
+				title: 'انا لخدمتك',
 				description: `افتح تيكيت دخيلك`
 			})
 			.setImage(config.images.ticketMessageImage)
