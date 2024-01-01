@@ -1,12 +1,13 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { Command } from '@sapphire/framework';
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, type Message } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits, type Message } from 'discord.js';
 import { EmbedManager } from '../../lib/embeds';
 import { config } from '../../config';
 
 @ApplyOptions<Command.Options>({
 	name: 'send-ticket-message',
-	description: 'بعت رسالة التيكت'
+	description: 'بعت رسالة التيكت',
+	requiredUserPermissions: [PermissionFlagsBits.ManageGuild]
 })
 export class UserCommand extends Command {
 	public override async messageRun(message: Message) {
