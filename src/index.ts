@@ -6,6 +6,7 @@ import { GuildModel } from './db/models/guild';
 import './lib/setup';
 import { Time } from '@sapphire/time-utilities';
 import { config } from './config';
+import { env } from 'process';
 
 const client = new SapphireClient({
 	defaultPrefix: '!',
@@ -34,7 +35,7 @@ const client = new SapphireClient({
 const main = async () => {
 	try {
 		client.logger.info('Logging in');
-		await mongoose.connect('mongodb+srv://admin:1234@cluster0.gywq2as.mongodb.net/sysbotdev?retryWrites=true&w=majority');
+		await mongoose.connect(env.DATABASE_URL!);
 		client.logger.info('[DB] logged in');
 		await client.login();
 		client.logger.info('logged in');
