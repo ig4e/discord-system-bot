@@ -4,10 +4,10 @@ import AutoIncrementFactory from 'mongoose-sequence';
 
 const AutoIncrement = AutoIncrementFactory(mongoose as any) as any;
 
-@plugin(AutoIncrement, { id: 'warn_seq', inc_field: '_id', start_seq: 1, reference_fields: ['userId'] })
+@plugin(AutoIncrement, { id: 'warn_seq', inc_field: 'id', start_seq: 1, reference_fields: ['userId'] })
 class Warn {
 	@prop()
-	public _id!: number;
+	id!: number;
 
 	@prop({ required: false })
 	reason: string;

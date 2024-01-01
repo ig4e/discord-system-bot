@@ -25,7 +25,7 @@ export class UserCommand extends Command {
 			.setTemplate({ title: 'التخذيرات', color: Colors.Blue })
 			.setItems(
 				warnings.map((warn) => ({
-					name: `تحذير رقم (${warn._id})`,
+					name: `تحذير رقم (${warn.id})`,
 					value: codeBlock(warn.reason ?? 'لا يوجد') + `\n* ⏱ ${time(warn.createdAt)}\n* بواسطة: <@${warn.givenBy}>`,
 					inline: false
 				}))

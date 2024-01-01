@@ -36,7 +36,7 @@ export class UserCommand extends Command {
 			return message.reply({ embeds: [embedManager.warning({ description: 'لا يمكنك  أزالة تحذير شخص اعلى منك' })] });
 		}
 
-		const warn = await db.warns.findOne({ userId: user.id, _id: warnNumber });
+		const warn = await db.warns.findOne({ userId: user.id, id: warnNumber });
 
 		if (!warn) {
 			return message.reply({ embeds: [embedManager.error({ description: `لا يوجد تحذير بهذا الرقم` })] });
