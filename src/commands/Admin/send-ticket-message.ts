@@ -21,9 +21,9 @@ export class UserCommand extends Command {
 			.setImage(config.images.ticketMessageImage)
 			.setFooter({ iconURL: message.guild?.iconURL()!, text: `سنكون دائما سعداء لخدمتك` });
 
-		const buttons = config.ticket.types.map((button) => {
+		const buttons = config.ticket.category.map((button) => {
 			return new ButtonBuilder({ emoji: button.emoji ?? undefined })
-				.setCustomId(`ticket-m-${button.id}`)
+				.setCustomId(`ticket-m:${button.id}`)
 				.setLabel(button.label)
 				.setStyle(ButtonStyle.Secondary);
 		});

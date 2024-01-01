@@ -6,11 +6,12 @@ import {
 	type MessageCommandSuccessPayload
 } from '@sapphire/framework';
 import { cyan } from 'colorette';
-import type { APIUser, Guild, User } from 'discord.js';
-import { ApplyStatus } from '../db/models/apply';
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ar';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import { type APIUser, type Guild, type User } from 'discord.js';
+import { ApplyStatus } from '../db/models/apply';
+import { TicketAction } from './tickets';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ar');
@@ -71,4 +72,39 @@ export function translateApplyStatus(status: ApplyStatus) {
 	}
 
 	return translatedStatus;
+}
+
+export function translateTicketActions(action: TicketAction) {
+	let translatedAction = 'غير معروف';
+
+	// 'create' | 'open' | 'close' | 'claim' | 'unclaim' | 'add' | 'remove' | 'lock' | 'unlock' | 'delete';
+
+	switch (action) {
+		case 'create':
+			translatedAction = 'إنشاء تذكرة';
+			break;
+		case 'open':
+			translatedAction = 'فتح التذكرة';
+			break;
+		case 'close':
+			translatedAction = 'إغلاق التذكرة';
+			break;
+		case 'claim':
+			translatedAction = 'أستلام التذكرة';
+			break;
+		case 'unclaim':
+			translatedAction = 'إلغاء أستلام التذكرة';
+			break;
+		case 'add':
+			translatedAction = 'إضافة عضو';
+			break;
+		case 'remove':
+			translatedAction = 'إزالة عضو';
+			break;
+		case 'delete':
+			translatedAction = 'حذف التذكرة';
+			break;
+	}
+
+	return translatedAction;
 }
