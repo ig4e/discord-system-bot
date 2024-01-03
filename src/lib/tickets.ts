@@ -336,15 +336,15 @@ export class TicketManager {
 		const ticket = await this.getTicket();
 		const { guild, user } = this.getInfoFromInteractionOrMessage();
 
-		const ticketChannel = (await guild.channels.fetch(ticket.channelId)) as TextChannel;
-		const attachment = await discordTranscripts.createTranscript(ticketChannel);
-
-		let transcriptChannel = guild.channels.cache.get(config.channels.ticket.transcripts) as TextChannel;
-		if (!transcriptChannel) {
-			transcriptChannel = (await guild.channels.fetch(config.channels.ticket.logs)) as any as typeof transcriptChannel;
-		}
-
 		try {
+			const ticketChannel = (await guild.channels.fetch(ticket.channelId)) as TextChannel;
+			const attachment = await discordTranscripts.createTranscript(ticketChannel);
+
+			let transcriptChannel = guild.channels.cache.get(config.channels.ticket.transcripts) as TextChannel;
+			if (!transcriptChannel) {
+				transcriptChannel = (await guild.channels.fetch(config.channels.ticket.logs)) as any as typeof transcriptChannel;
+			}
+
 			await transcriptChannel
 				.send({
 					embeds: [
@@ -371,14 +371,15 @@ export class TicketManager {
 	async logAction({ action, ticketId }: { action: TicketAction; ticketId?: string }) {
 		const ticket = await this.getTicket({ ticketId });
 		const { guild, user } = this.getInfoFromInteractionOrMessage();
-		const ticketChannel = (await guild.channels.fetch(ticket.channelId)) as TextChannel;
-
-		let logChannel = guild.channels.cache.get(config.channels.ticket.logs) as TextChannel;
-		if (!logChannel) {
-			logChannel = (await guild.channels.fetch(config.channels.ticket.logs)) as any as typeof logChannel;
-		}
 
 		try {
+			const ticketChannel = (await guild.channels.fetch(ticket.channelId)) as TextChannel;
+
+			let logChannel = guild.channels.cache.get(config.channels.ticket.logs) as TextChannel;
+			if (!logChannel) {
+				logChannel = (await guild.channels.fetch(config.channels.ticket.logs)) as any as typeof logChannel;
+			}
+
 			await logChannel.send({
 				embeds: [
 					this.embedManager
