@@ -66,7 +66,7 @@ export class UserEvent extends Listener {
 		}
 	}
 
-	replaceOpenAIPhrases(originalResponse: any, message: Message) {
+	replaceOpenAIPhrases(originalResponse: string, message: Message) {
 		const openAIKeywords = [
 			'developed by OpenAI',
 			'developers',

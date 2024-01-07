@@ -6,7 +6,7 @@ import { config } from '../../config';
 @ApplyOptions<Command.Options>({
 	name: 'line',
 	aliases: ['line', 'خط'],
-	description: 'أمر الخط'
+	description: 'Sending the server line'
 })
 export class UserCommand extends Command {
 	public override async messageRun(message: Message) {

@@ -15,7 +15,7 @@ export class UserCommand extends Command {
 		return await ticketManager
 			.unclaim()
 			.then(() => {
-				return message.reply({ embeds: [embedManager.success({ description: `تم الغاء أستلام التذكرة من قبل ${message.author}` })] });
+				return message.reply({ embeds: [embedManager.success({ description: `Ticket unclaimed by: ${message.author}` })] });
 			})
 			.catch((error) => {
 				return message.reply({ embeds: [embedManager.error({ description: error.message })] });

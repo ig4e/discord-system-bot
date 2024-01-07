@@ -12,12 +12,12 @@ export class UserCommand extends Command {
 	public override async messageRun(message: Message) {
 		const emebedManager = new EmbedManager({ message });
 
-		const pongMsg = await message.reply({ embeds: [emebedManager.info({ description: `جارى التحميل...` })] });
+		const pongMsg = await message.reply({ embeds: [emebedManager.info({ description: `Loading...` })] });
 
 		return pongMsg.edit({
 			embeds: [
 				emebedManager.success({
-					title: `سرعة الاتصال`,
+					title: `Bot Latency`,
 					description: `Ping:${Math.round(this.container.client.ws.ping)}ms.\nAPI Latency:${
 						pongMsg.createdTimestamp - message.createdTimestamp
 					}ms.`

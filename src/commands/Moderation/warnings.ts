@@ -15,18 +15,18 @@ export class UserCommand extends Command {
 		const user = await args.pick('user').catch(() => message.author);
 		const warnings = await db.warns.find({ userId: user.id });
 
-		if (!warnings.length) return message.reply({ embeds: [embedManager.info({ description: 'لا يوجد تحذيرات' })] });
+		if (!warnings.length) return message.reply({ embeds: [embedManager.info({ description: 'No warnings have been issued.' })] });
 
 		if (!message.member!.permissions.has(PermissionFlagsBits.KickMembers) && user.id !== message.author.id) {
-			return message.reply({ embeds: [embedManager.warning({ description: 'ليس لديك الصلاحيات لعرض تحذيرات شخص أخر' })] });
+			return message.reply({ embeds: [embedManager.warning({ description: 'Missing Perms' })] });
 		}
 
 		return new PaginatedMessageEmbedFields({})
-			.setTemplate({ title: 'التخذيرات', color: Colors.Blue })
+			.setTemplate({ title: 'Warning List', color: Colors.Blue })
 			.setItems(
 				warnings.map((warn) => ({
-					name: `تحذير رقم (${warn.id})`,
-					value: codeBlock(warn.reason ?? 'لا يوجد') + `\n* ⏱ ${time(warn.createdAt)}\n* بواسطة: <@${warn.givenBy}>`,
+					name: `Warn Num(${warn.id})`,
+					value: codeBlock(warn.reason ?? 'No reason') + `\n* ⏱ ${time(warn.createdAt)}\n* By: <@${warn.givenBy}>`,
 					inline: false
 				}))
 			)

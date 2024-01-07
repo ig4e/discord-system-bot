@@ -6,7 +6,7 @@ import { config } from '../../config';
 
 @ApplyOptions<Command.Options>({
 	name: 'send-ticket-message',
-	description: 'بعت رسالة التيكت',
+	description: 'send ticket msg',
 	requiredUserPermissions: [PermissionFlagsBits.ManageGuild]
 })
 export class UserCommand extends Command {
@@ -16,11 +16,11 @@ export class UserCommand extends Command {
 		const embed = embedManager
 			.primary({
 				enableTitleIcon: false,
-				title: 'انا لخدمتك',
-				description: `افتح تيكيت دخيلك`
+				title: 'Buy Slot',
+				description: `Choose a button below to create a ticket`
 			})
 			.setImage(config.images.ticketMessageImage)
-			.setFooter({ iconURL: message.guild?.iconURL()!, text: `سنكون دائما سعداء لخدمتك` });
+			.setFooter({ iconURL: message.guild?.iconURL()!, text: `We are here to serve you` });
 
 		const buttons = config.ticket.category.map((button) => {
 			return new ButtonBuilder({ emoji: button.emoji ?? undefined })

@@ -5,7 +5,7 @@ import { EmbedManager } from '../../lib/embeds';
 
 @ApplyOptions<Command.Options>({
 	name: 'say',
-	description: 'امر',
+	description: 'say cmd',
 	requiredUserPermissions: [PermissionFlagsBits.ManageChannels]
 })
 export class UserCommand extends Command {
@@ -14,8 +14,8 @@ export class UserCommand extends Command {
 			builder //
 				.setName(this.name)
 				.setDescription(this.description)
-				.addStringOption((option) => option.setName('message').setDescription('الرسالة').setRequired(true))
-				.addChannelOption((option) => option.setName('channel').setDescription('شانل الرسالة').setRequired(false))
+				.addStringOption((option) => option.setName('message').setDescription('msg').setRequired(true))
+				.addChannelOption((option) => option.setName('channel').setDescription('channel').setRequired(false))
 		);
 	}
 
@@ -27,7 +27,7 @@ export class UserCommand extends Command {
 
 		await channel.send(message);
 
-		await interaction.reply({ embeds: [emebedManager.success({ description: `تم أرسال الرسالة بنجاح` })], ephemeral: true });
+		await interaction.reply({ embeds: [emebedManager.success({ description: `Done` })], ephemeral: true });
 	}
 
 	public override async messageRun(message: Message, args: Args) {
@@ -37,7 +37,7 @@ export class UserCommand extends Command {
 
 		if (!messageContent) {
 			const prefix = await this.container.client.fetchPrefix(message);
-			return message.reply({ embeds: [embedManager.error({ description: `استعمال خاطئ\n\`${prefix}say #channel? message\`` })] });
+			return message.reply({ embeds: [embedManager.error({ description: `Unkown Usage\n\`${prefix}say #channel? message\`` })] });
 		}
 
 		return await channel.send(messageContent);

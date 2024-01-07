@@ -17,7 +17,7 @@ export class UserCommand extends Command {
 		return await ticketManager
 			.claim()
 			.then(() => {
-				return message.reply({ embeds: [embedManager.success({ description: `تم أستلام التذكرة من قبل ${message.author}` })] });
+				return message.reply({ embeds: [embedManager.success({ description: `The ticked been claimed by: ${message.author}` })] });
 			})
 			.catch((error) => {
 				return message.reply({ embeds: [embedManager.error({ description: error.message })] });

@@ -18,7 +18,7 @@ export class UserCommand extends Command {
 
 		if (!user) {
 			const prefix = await this.container.client.fetchPrefix(message);
-			return message.reply({ embeds: [embedManager.error({ description: `استعمال خاطئ\n\`${prefix}ban @mention reason?\`` })] });
+			return message.reply({ embeds: [embedManager.error({ description: `Unkown Usage\n\`${prefix}ban @mention reason?\`` })] });
 		}
 
 		const member = await message.guild?.members.fetch(typeof user === 'string' ? user : user.id)!;
@@ -26,10 +26,10 @@ export class UserCommand extends Command {
 		try {
 			await member.ban({ reason: reason ?? undefined });
 			return message.reply({
-				embeds: [embedManager.success({ description: `تم حظر ${member.user.username} من السيرفر! ✈️` })]
+				embeds: [embedManager.success({ description: `Banned ${member.user.username} ! ✈️` })]
 			});
 		} catch (error) {
-			return message.reply({ embeds: [embedManager.error({ description: 'لم استطع حظر هذا العضو، يرجى مراجعة صلاحياتي وترتيب رتبتي.' })] });
+			return message.reply({ embeds: [embedManager.error({ description: 'I cant ban that user check my perms.' })] });
 		}
 	}
 }

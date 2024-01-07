@@ -5,7 +5,7 @@ import { EmbedManager } from '../../lib/embeds';
 
 @ApplyOptions<Command.Options>({
 	name: 'kick',
-	description: 'أمر الكيك',
+	description: 'Kick cmd',
 	requiredUserPermissions: [PermissionFlagsBits.KickMembers]
 })
 export class UserCommand extends Command {
@@ -16,7 +16,7 @@ export class UserCommand extends Command {
 
 		if (!user) {
 			const prefix = await this.container.client.fetchPrefix(message);
-			return message.reply({ embeds: [emebedManager.error({ description: `استعمال خاطئ\n\`${prefix}kick @mention reason?\`` })] });
+			return message.reply({ embeds: [emebedManager.error({ description: `Unkown Usage\n\`${prefix}kick @mention reason?\`` })] });
 		}
 
 		const member = await message.guild?.members.fetch(typeof user === 'string' ? user : user.id)!;
@@ -26,12 +26,12 @@ export class UserCommand extends Command {
 			return message.reply({
 				embeds: [
 					emebedManager.success({
-						description: `تم طرد ${member.user.username} من السيرفر`
+						description: ` Kicked ${member.user.username} From the server!`
 					})
 				]
 			});
 		} catch (error) {
-			return message.reply({ embeds: [emebedManager.error({ description: 'لا يمكنني طرد هذا العضو' })] });
+			return message.reply({ embeds: [emebedManager.error({ description: 'I cant kick that user check my perms' })] });
 		}
 	}
 }

@@ -73,7 +73,7 @@ export const embedFields = [
 
 @ApplyOptions<Command.Options>({
 	name: 'embed',
-	description: 'أمر صنع ايمبيد',
+	description: 'Embed cmd',
 	requiredUserPermissions: [PermissionFlagsBits.ManageMessages]
 })
 export class UserCommand extends Command {
@@ -86,7 +86,7 @@ export class UserCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
-		const modal = new ModalBuilder().setCustomId('embed-modal').setTitle('أرسل ايمبد');
+		const modal = new ModalBuilder().setCustomId('embed-modal').setTitle('Embed Sender');
 		const embedModalInputs = embedFields.map((field) => {
 			return new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(
 				new TextInputBuilder()

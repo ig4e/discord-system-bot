@@ -15,13 +15,13 @@ export class UserCommand extends Command {
 
 		if (!user) {
 			const prefix = await this.container.client.fetchPrefix(message);
-			return message.reply({ embeds: [embedManager.error({ description: `استعمال خاطئ\n\`${prefix}add @mention\`` })] });
+			return message.reply({ embeds: [embedManager.error({ description: `Unkown Usage\n\`${prefix}add @mention\`` })] });
 		}
 
 		return await ticketManager
 			.add({ userId: typeof user === 'string' ? user : user.id })
 			.then(() => {
-				return message.reply({ embeds: [embedManager.success({ description: `تم أضافة ${user}` })] });
+				return message.reply({ embeds: [embedManager.success({ description: `Added ${user}` })] });
 			})
 			.catch((error) => {
 				return message.reply({ embeds: [embedManager.error({ description: error.message })] });

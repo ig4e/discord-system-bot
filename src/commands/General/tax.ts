@@ -14,7 +14,7 @@ export class UserCommand extends Command {
 
 		const rawAmount = await args.pick('string').catch(async () => {
 			const prefix = await this.container.client.fetchPrefix(message);
-			await message.channel.send({ embeds: [emebedManager.error({ description: `استعمال خاطئ\n\`${prefix}tax amount\`` })] });
+			await message.channel.send({ embeds: [emebedManager.error({ description: `Error\n\`${prefix}tax amount\`` })] });
 			return null;
 		});
 
