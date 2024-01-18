@@ -7,7 +7,7 @@ import { db } from '../../db';
 @ApplyOptions<Command.Options>({
 	name: 'set-prefix',
 	aliases: ['setprefix', 'set prefix'],
-	description: 'Chnages the prefix',
+	description: 'تغيير البريفكس',
 	preconditions: ['OwnerOnly']
 })
 export class UserCommand extends Command {
@@ -17,13 +17,13 @@ export class UserCommand extends Command {
 		const currentPrefix = await this.container.client.fetchPrefix(message);
 
 		if (!newPrefix) {
-			return message.reply({ embeds: [emebedManager.info({ description: `> Current Prefix: ${currentPrefix}` })] });
+			return message.reply({ embeds: [emebedManager.info({ description: `> البريفكس الحالي: ${currentPrefix}` })] });
 		}
 
 		await db.guilds.findByIdAndUpdate(message.guildId, { prefix: newPrefix });
 
 		return message.reply({
-			embeds: [emebedManager.success({ description: `Done Changed the prefix to ${newPrefix}` })]
+			embeds: [emebedManager.success({ description: `تم تغيير البريفكس بنجاح\n> البريفكس الحالي: ${newPrefix}` })]
 		});
 	}
 }

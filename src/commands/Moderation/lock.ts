@@ -6,7 +6,7 @@ import { EmbedManager } from '../../lib/embeds';
 @ApplyOptions<Command.Options>({
 	name: 'lock',
 	aliases: ['قفل'],
-	description: 'Lock cmd',
+	description: 'أمر قفل الشانلات',
 	requiredUserPermissions: [PermissionFlagsBits.ManageChannels]
 })
 export class UserCommand extends Command {
@@ -23,11 +23,11 @@ export class UserCommand extends Command {
 			});
 
 			return message.reply({
-				embeds: [emebedManager.success({ description: `Locked the channel.` })]
+				embeds: [emebedManager.success({ description: `تم قفل الروم.` })]
 			});
 		} catch (error) {
 			return message.reply({
-				embeds: [emebedManager.error({ description: 'I cant lock the channel, pls check my perms.' })]
+				embeds: [emebedManager.error({ description: 'لم استطع قفل الروم، يرجى مراجعة صلاحياتي وترتيب رتبتي.' })]
 			});
 		}
 	}

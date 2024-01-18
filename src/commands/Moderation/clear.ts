@@ -8,7 +8,7 @@ const MAX_DELETE_AMOUNT = 100;
 @ApplyOptions<Command.Options>({
 	name: 'clear',
 	aliases: ['مسح'],
-	description: 'Clear cmd',
+	description: 'أمر الكلير',
 	requiredUserPermissions: [PermissionFlagsBits.ManageMessages]
 })
 export class UserCommand extends Command {
@@ -19,13 +19,13 @@ export class UserCommand extends Command {
 
 		if (!amount) {
 			const prefix = await this.container.client.fetchPrefix(message);
-			return message.reply({ embeds: [embedManager.error({ description: `Unkown Usage\n\`${prefix}clear amount\`` })] });
+			return message.reply({ embeds: [embedManager.error({ description: `استعمال خاطئ\n\`${prefix}clear amount\`` })] });
 		}
 
 		if (amount > 1000) amount = 1000;
 
 		try {
-			await message.reply({ embeds: [embedManager.info({ description: `Loading...` })] }).then(() => message.delete());
+			await message.reply({ embeds: [embedManager.info({ description: `جارى المسح...` })] }).then(() => message.delete());
 
 			let remainingMessages = amount + 1;
 			let deletedMessagesAmount = 0;
@@ -49,12 +49,12 @@ export class UserCommand extends Command {
 
 			return message.channel
 				.send({
-					embeds: [embedManager.success({ description: codeBlock(`Cleared ${deletedMessagesAmount} msg!`) })]
+					embeds: [embedManager.success({ description: codeBlock(`تم مسح ${deletedMessagesAmount} رسالة`) })]
 				})
 				.then((message) => setTimeout(() => message.delete(), 2000));
 		} catch (error) {
 			return message.channel
-				.send({ embeds: [embedManager.error({ description: 'I cant clear the chat, check my perms' })] })
+				.send({ embeds: [embedManager.error({ description: 'لم استطع مسح الرسائل، يرجى مراجعة صلاحياتي.' })] })
 				.then((message) => setTimeout(() => message.delete(), 2000));
 		}
 	}

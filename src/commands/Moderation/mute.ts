@@ -8,7 +8,7 @@ import { Time } from '@sapphire/time-utilities';
 @ApplyOptions<Command.Options>({
 	name: 'mute',
 	aliases: ['إسكات', 'ميوت'],
-	description: 'Mute cmd',
+	description: 'أمر الميوت',
 	requiredUserPermissions: [PermissionFlagsBits.ManageMessages]
 })
 export class UserCommand extends Command {
@@ -21,7 +21,7 @@ export class UserCommand extends Command {
 
 		if (!user) {
 			const prefix = await this.container.client.fetchPrefix(message);
-			return message.reply({ embeds: [emebedManager.error({ description: `Unkown Usage\n\`${prefix}mute @mention duration? reason?\`` })] });
+			return message.reply({ embeds: [emebedManager.error({ description: `استعمال خاطئ\n\`${prefix}mute @mention duration? reason?\`` })] });
 		}
 
 		const member = await message.guild?.members.fetch(typeof user === 'string' ? user : user.id)!;
@@ -34,10 +34,10 @@ export class UserCommand extends Command {
 			}
 
 			return message.reply({
-				embeds: [emebedManager.success({ description: `Muted ${member.user.username}!` })]
+				embeds: [emebedManager.success({ description: `تم إسكات ${member.user.username}!` })]
 			});
 		} catch (error) {
-			return message.reply({ embeds: [emebedManager.error({ description: 'I cant mute the user, pls check my perms.' })] });
+			return message.reply({ embeds: [emebedManager.error({ description: 'لم استطع أسكات هذا العضو، يرجى مراجعة صلاحياتي وترتيب رتبتي.' })] });
 		}
 	}
 }

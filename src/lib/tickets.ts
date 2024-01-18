@@ -49,9 +49,7 @@ export class TicketManager {
 
 	async create({ categoryId }: { categoryId: TicketCategoryId }) {
 		const ticketCategory = config.ticket.category.find((c) => c.id === categoryId)!;
-
-		const ticketNumber = ((await db.counters.findOne({ id: 'number' }))?.seq || 0) + 1
-
+		const ticketNumber = (await db.counters.findOne({ id: 'number' }))!.seq + 1;
 		const { guild, user, client } = this.getInfoFromInteractionOrMessage();
 
 		const ticketChannel = await this.interactionOrMessage.guild?.channels.create({

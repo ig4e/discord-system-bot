@@ -6,7 +6,7 @@ import { EmbedManager } from '../../lib/embeds';
 @ApplyOptions<Command.Options>({
 	name: 'unlock',
 	aliases: ['فتح'],
-	description: 'Unlock cmd',
+	description: 'أمر فتح الشانلات',
 	requiredUserPermissions: [PermissionFlagsBits.ManageChannels]
 })
 export class UserCommand extends Command {
@@ -23,11 +23,11 @@ export class UserCommand extends Command {
 			});
 
 			return message.reply({
-				embeds: [emebedManager.success({ description: `Unlocked the channel` })]
+				embeds: [emebedManager.success({ description: `تم فتح الروم.` })]
 			});
 		} catch (error) {
 			return message.reply({
-				embeds: [emebedManager.error({ description: 'Missing Perms' })]
+				embeds: [emebedManager.error({ description: 'لم استطع فتح الروم، يرجى مراجعة صلاحياتي وترتيب رتبتي.' })]
 			});
 		}
 	}

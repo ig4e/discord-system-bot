@@ -16,7 +16,7 @@ export class UserCommand extends Command {
 		return await ticketManager
 			.lock()
 			.then(() => {
-				return message.reply({ embeds: [embedManager.success({ description: `ticket chat been locked by: ${message.author}` })] });
+				return message.reply({ embeds: [embedManager.success({ description: `تم قفل التذكرة من قبل ${message.author}` })] });
 			})
 			.catch((error) => {
 				return message.reply({ embeds: [embedManager.error({ description: error.message })] });

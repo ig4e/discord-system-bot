@@ -15,7 +15,7 @@ export class UserCommand extends Command {
 		return await ticketManager
 			.open()
 			.then(() => {
-				return message.reply({ embeds: [embedManager.success({ description: `Tickt reopened by: ${message.author}` })] });
+				return message.reply({ embeds: [embedManager.success({ description: `تم فتح التذكرة من قبل ${message.author}` })] });
 			})
 			.catch((error) => {
 				return message.reply({ embeds: [embedManager.error({ description: error.message })] });

@@ -16,13 +16,13 @@ export class UserCommand extends Command {
 
 		if (!user) {
 			const prefix = await this.container.client.fetchPrefix(message);
-			return message.reply({ embeds: [embedManager.error({ description: `Unkown Usage\n\`${prefix}add @mention\`` })] });
+			return message.reply({ embeds: [embedManager.error({ description: `استعمال خاطئ\n\`${prefix}add @mention\`` })] });
 		}
 
 		return await ticketManager
 			.remove({ userId: typeof user === 'string' ? user : user.id })
 			.then(() => {
-				return message.reply({ embeds: [embedManager.success({ description: `Removed ${user}` })] });
+				return message.reply({ embeds: [embedManager.success({ description: `تم أزالة ${user}` })] });
 			})
 			.catch((error) => {
 				return message.reply({ embeds: [embedManager.error({ description: error.message })] });

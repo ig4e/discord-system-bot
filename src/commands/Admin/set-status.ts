@@ -5,7 +5,7 @@ import { EmbedManager } from '../../lib/embeds';
 import { db } from '../../db';
 
 @ApplyOptions<Command.Options>({
-	description: 'Changes Bot Statud',
+	description: 'تغيير حالة البوت',
 	preconditions: ['OwnerOnly']
 })
 export class UserCommand extends Command {
@@ -14,11 +14,11 @@ export class UserCommand extends Command {
 			builder //
 				.setName(this.name)
 				.setDescription(this.description)
-				.addStringOption((option) => option.setName('name').setDescription('Status Name ').setRequired(true))
+				.addStringOption((option) => option.setName('name').setDescription('أسم الحالة').setRequired(true))
 				.addStringOption((option) =>
 					option
 						.setName('status')
-						.setDescription('Status')
+						.setDescription('الحالة')
 						.addChoices(
 							{ name: 'Online', value: 'online' },
 							{ name: 'Idle', value: 'idle' },
@@ -30,7 +30,7 @@ export class UserCommand extends Command {
 				.addIntegerOption((option) =>
 					option
 						.setName('type')
-						.setDescription('Status Type')
+						.setDescription('نوع الحالة')
 						.addChoices(
 							{ name: 'Playing', value: 0 },
 							{ name: 'Streaming', value: 1 },
@@ -63,6 +63,6 @@ export class UserCommand extends Command {
 			activities: [{ name: name, type: type, url: type === 1 ? 'https://www.twitch.tv/shroud' : undefined }]
 		});
 
-		return interaction.reply({ embeds: [emebedManager.success({ description: `Done` })] });
+		return interaction.reply({ embeds: [emebedManager.success({ description: `تم تغيير حالة البوت بنجاح` })] });
 	}
 }

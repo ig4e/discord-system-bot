@@ -3,7 +3,7 @@ import { Command } from '@sapphire/framework';
 import { EmbedManager } from '../../lib/embeds';
 
 @ApplyOptions<Command.Options>({
-	description: 'Changes bot avatar',
+	description: 'تغيير صورة البوت',
 	preconditions: ['OwnerOnly']
 })
 export class UserCommand extends Command {
@@ -12,7 +12,7 @@ export class UserCommand extends Command {
 			builder //
 				.setName(this.name)
 				.setDescription(this.description)
-				.addAttachmentOption((option) => option.setName('avatar').setDescription('bot pic').setRequired(true))
+				.addAttachmentOption((option) => option.setName('avatar').setDescription('صورة البوت').setRequired(true))
 		);
 	}
 
@@ -27,10 +27,10 @@ export class UserCommand extends Command {
 			}
 
 			return await interaction.editReply({
-				embeds: [emebedManager.success({ description: 'Done' }).setImage(avatar.url)]
+				embeds: [emebedManager.success({ description: 'تم تغيير صورة البوت بنجاح' }).setImage(avatar.url)]
 			});
 		} catch (error) {
-			return interaction.editReply({ embeds: [emebedManager.error({ description: 'An error occurred try again' })] });
+			return interaction.editReply({ embeds: [emebedManager.error({ description: 'حدث خطأ' })] });
 		}
 	}
 }

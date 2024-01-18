@@ -6,7 +6,7 @@ import { EmbedManager } from '../../lib/embeds';
 @ApplyOptions<Command.Options>({
 	name: 'call',
 	aliases: ['نداء', 'come', 'تعال'],
-	description: 'Calling Someone'
+	description: 'أمر النداء'
 })
 export class UserCommand extends Command {
 	public override async messageRun(message: Message, args: Args) {
@@ -18,21 +18,21 @@ export class UserCommand extends Command {
 
 			if (!user) {
 				const prefix = await this.container.client.fetchPrefix(message);
-				return message.reply({ embeds: [embedManager.error({ description: `Unkown Usage\n\`${prefix}come @mention reason?\`` })] });
+				return message.reply({ embeds: [embedManager.error({ description: `استعمال خاطئ\n\`${prefix}come @mention reason?\`` })] });
 			}
 
 			await user.send({
 				embeds: [
 					embedManager.info({
-						title: `Call`,
-						description: `${user},\n* from: ${message.author}\n* channel: ${message.channel}\n* reason: ${reason ?? 'no reason'}`
+						title: `نداء`,
+						description: `${user},\n* المنادي: ${message.author}\n* الشانل: ${message.channel}\n* السبب: ${reason ?? 'لا يوجد سبب'}`
 					})
 				]
 			});
 
-			return message.reply({ embeds: [embedManager.success({ description: 'Done' })] });
+			return message.reply({ embeds: [embedManager.success({ description: 'تم النداء' })] });
 		} catch (error) {
-			return message.reply({ embeds: [embedManager.error({ description: 'An error occurred try again' })] });
+			return message.reply({ embeds: [embedManager.error({ description: 'حدث خطأ' })] });
 		}
 	}
 }

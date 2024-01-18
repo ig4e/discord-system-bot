@@ -4,7 +4,7 @@ import { EmbedManager } from '../../lib/embeds';
 
 @ApplyOptions<Command.Options>({
 	name: 'set-name',
-	description: 'Changes The bot Name',
+	description: 'أمر تغيير الاسم',
 	preconditions: ['OwnerOnly']
 })
 export class UserCommand extends Command {
@@ -13,7 +13,7 @@ export class UserCommand extends Command {
 			builder //
 				.setName(this.name)
 				.setDescription(this.description)
-				.addStringOption((option) => option.setName('name').setDescription('Bot Name').setRequired(true))
+				.addStringOption((option) => option.setName('name').setDescription('أسم البوت').setRequired(true))
 		);
 	}
 
@@ -23,6 +23,6 @@ export class UserCommand extends Command {
 
 		await this.container.client.user?.setUsername(name);
 
-		await interaction.reply({ embeds: [embedManager.success({ description: `Done` })] });
+		await interaction.reply({ embeds: [embedManager.success({ description: `تم تغيير اسم البوت بنجاح` })] });
 	}
 }
