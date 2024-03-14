@@ -116,7 +116,11 @@ export class TicketManager {
 				(channel as TextChannel).permissionOverwrites.edit(role, { ViewChannel: false });
 			}),
 			ticket.updateOne({ claimed: true, claimedBy: user.id }),
-			this.updateTicketMessage()
+			this.updateTicketMessage(),
+			this.editTicketChannelName({
+				ticketId: ticket.id,
+				state: 'claimed'
+			})
 		]);
 
 		this.logAction({ action: 'claim' });
@@ -140,7 +144,11 @@ export class TicketManager {
 				(channel as TextChannel).permissionOverwrites.edit(role, { ViewChannel: true });
 			}),
 			ticket.updateOne({ claimed: false, claimedBy: null }),
-			this.updateTicketMessage()
+			this.updateTicketMessage(),
+			this.editTicketChannelName({
+				ticketId: ticket.id,
+				state: 'ticket'
+			})
 		]);
 
 		this.logAction({ action: 'unclaim' });
@@ -198,7 +206,11 @@ export class TicketManager {
 			}),
 			ticket.updateOne({ status: TicketStatus.Closed }),
 			ticketChannel.edit({ parent: ticketCategory.closedCategoryId }),
-			this.updateTicketMessage()
+			this.updateTicketMessage(),
+			this.editTicketChannelName({
+				ticketId: ticket.id,
+				state: 'closed'
+			})
 		]);
 
 		this.logAction({ action: 'close' });
@@ -223,7 +235,13 @@ export class TicketManager {
 
 		const ticketChannel = (await guild.channels.fetch(ticket.channelId))! as TextChannel;
 		const member = await guild.members.fetch(ticket.userId);
-		await Promise.all([ticketChannel.permissionOverwrites.edit(member, { ViewChannel: true, SendMessages: false })]);
+		await Promise.all([
+			ticketChannel.permissionOverwrites.edit(member, { ViewChannel: true, SendMessages: false }),
+			this.editTicketChannelName({
+				ticketId: ticket.id,
+				state: 'locked'
+			})
+		]);
 
 		this.logAction({ action: 'lock' });
 
@@ -345,26 +363,52 @@ export class TicketManager {
 				transcriptChannel = (await guild.channels.fetch(config.channels.ticket.logs)) as any as typeof transcriptChannel;
 			}
 
-			await transcriptChannel
-				.send({
-					embeds: [
-						this.embedManager
-							.info({
-								title: 'نسخة من التذكرة'
-							})
-							.addFields(
-								{ name: 'أي دي التيكيت', value: `${ticket.number} (${ticketChannel})`, inline: true },
-								{ name: 'صاحب التيكت', value: `<@${ticket.userId}> (${ticket.userId})`, inline: true },
-								{ name: 'المسؤول عن الامر', value: `${user}`, inline: true },
-								{
-									name: 'الى عمل كليم للتيكيت التيكت',
-									value: ticket.claimedBy ? `<@${ticket.claimedBy}> (${ticket.claimedBy})` : 'لا يوجد',
-									inline: true
-								}
-							)
-					]
-				})
-				.then((msg) => msg.channel.send({ files: [attachment] }));
+			try {
+				await transcriptChannel
+					.send({
+						embeds: [
+							this.embedManager
+								.info({
+									title: 'نسخة من التذكرة'
+								})
+								.addFields(
+									{ name: 'أي دي التيكيت', value: `${ticket.number} (${ticketChannel})`, inline: true },
+									{ name: 'صاحب التيكت', value: `<@${ticket.userId}> (${ticket.userId})`, inline: true },
+									{ name: 'المسؤول عن الامر', value: `${user}`, inline: true },
+									{
+										name: 'الى عمل كليم للتيكيت التيكت',
+										value: ticket.claimedBy ? `<@${ticket.claimedBy}> (${ticket.claimedBy})` : 'لا يوجد',
+										inline: true
+									}
+								)
+						]
+					})
+					.then((msg) => msg.channel.send({ files: [attachment] }));
+			} catch {}
+
+			try {
+				await user
+					.send({
+						embeds: [
+							this.embedManager
+								.info({
+									title: 'نسخة من التذكرة'
+								})
+								.addFields(
+									{ name: 'أي دي التيكيت', value: `${ticket.number} (${ticketChannel})`, inline: true },
+									{ name: 'المسؤول عن الامر', value: `${user}`, inline: true },
+									{
+										name: 'الى عمل كليم للتيكيت التيكت',
+										value: ticket.claimedBy ? `<@${ticket.claimedBy}> (${ticket.claimedBy})` : 'لا يوجد',
+										inline: true
+									}
+								)
+						]
+					})
+					.then(async (msg) => {
+						await msg.channel.send({ files: [attachment] });
+					});
+			} catch {}
 		} catch {}
 	}
 
@@ -410,6 +454,16 @@ export class TicketManager {
 		return await ticketMessage.edit(await this.ticketMessage({ ticketId: ticket.id, edit: true }));
 	}
 
+	async editTicketChannelName({ ticketId, state }: { ticketId?: string; state: 'ticket' | 'locked' | 'closed' | 'claimed' }) {
+		const ticket = await db.tickets.findById(ticketId);
+		if (!ticket) return;
+		const ticketChannel = (await this.getInfoFromInteractionOrMessage().guild.channels.fetch(ticket.channelId)) as TextChannel;
+
+		ticketChannel.setName(`${state}-${ticket.number}`).catch((err) => console.log(err));
+
+		return;
+	}
+
 	async ticketMessage({ ticketId }: { ticketId?: string }): Promise<MessagePayload | MessageCreateOptions>;
 	async ticketMessage({ ticketId }: { ticketId?: string; edit: boolean }): Promise<MessagePayload | MessageEditOptions>;
 	async ticketMessage({ ticketId }: { ticketId?: string }) {
@@ -447,6 +501,7 @@ export class TicketManager {
 		);
 
 		return {
+			content: `<@${ticket.userId}>,`,
 			embeds: [
 				this.embedManager.primary({ titleIcon: ticketCategory.emoji, title: ticketCategory.title, description: ticketCategory.description })
 			],

@@ -1,8 +1,9 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { InteractionHandler, InteractionHandlerTypes } from '@sapphire/framework';
-import { type ButtonInteraction } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, type ButtonInteraction } from 'discord.js';
 import { EmbedManager } from '../lib/embeds';
 import { TicketManager } from '../lib/tickets';
+import { config } from '../config';
 
 @ApplyOptions<InteractionHandler.Options>({
 	interactionHandlerType: InteractionHandlerTypes.Button
@@ -11,7 +12,7 @@ export class ButtonHandler extends InteractionHandler {
 	public async run(interaction: ButtonInteraction) {
 		const embedManager = new EmbedManager({ interaction: interaction as any });
 		const ticketManager = new TicketManager({ interaction: interaction as any });
-		const action = interaction.customId.split(':')[1] as 'claim' | 'lock' | 'unlock' | 'close' | 'unclaim' | 'open';
+		const action = interaction.customId.split(':')[1] as 'claim' | 'lock' | 'unlock' | 'close' | 'unclaim' | 'open' | 'delete';
 		await interaction.deferReply();
 
 		if (!interaction.inGuild() || !interaction.channel) return;
@@ -63,14 +64,29 @@ export class ButtonHandler extends InteractionHandler {
 		}
 
 		if (action === 'close') {
+			//ticket-a:
+
+			const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+				new ButtonBuilder().setCustomId(`ticket-a:delete`).setLabel(`حذف التذكرة`).setEmoji(config.icons.error).setStyle(ButtonStyle.Danger)
+			);
+
 			await ticketManager
 				.close()
 				.then(() => {
-					return interaction.editReply({ embeds: [embedManager.success({ description: `تم أغلاق التذكرة من قبل ${interaction.user}` })] });
+					return interaction.editReply({
+						components: [row],
+						embeds: [embedManager.success({ description: `تم أغلاق التذكرة من قبل ${interaction.user}` })]
+					});
 				})
 				.catch((error) => {
 					return interaction.editReply({ embeds: [embedManager.error({ description: error.message })] });
 				});
+		}
+
+		if (action === 'delete') {
+			await ticketManager.delete().catch((error) => {
+				return interaction.editReply({ embeds: [embedManager.error({ description: error.message })] });
+			});
 		}
 
 		if (action === 'open') {

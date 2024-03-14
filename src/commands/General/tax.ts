@@ -21,14 +21,14 @@ export class UserCommand extends Command {
 		if (!rawAmount) return;
 
 		const parsedAmount = this.convertShortNumber(rawAmount.toLocaleLowerCase());
-		const tax = Math.round(parsedAmount * 0.05);
+		const total = Math.floor((parsedAmount * 20) / 19 + 1);
 
-		return message.reply(`> ${parsedAmount + tax}`);
+		return message.reply(`> ${total}`);
 	}
 
 	convertShortNumber(value: string) {
 		let multiplier = 1;
-		switch (value.slice(-1)) {
+		switch (value.slice(-1).toLowerCase()) {
 			case 'k':
 				multiplier = 1000;
 				break;

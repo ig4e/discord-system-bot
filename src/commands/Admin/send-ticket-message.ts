@@ -3,6 +3,7 @@ import { Command } from '@sapphire/framework';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits, type Message } from 'discord.js';
 import { EmbedManager } from '../../lib/embeds';
 import { config } from '../../config';
+import { createAttachment } from '../../lib/utils';
 
 @ApplyOptions<Command.Options>({
 	name: 'send-ticket-message',
@@ -12,6 +13,7 @@ import { config } from '../../config';
 export class UserCommand extends Command {
 	public override async messageRun(message: Message) {
 		const embedManager = new EmbedManager({ message });
+		const ticketMessageImage = await createAttachment('ticketMessage');
 
 		const embed = embedManager
 			.primary({
@@ -19,7 +21,7 @@ export class UserCommand extends Command {
 				title: 'انا لخدمتك',
 				description: `افتح تيكيت دخيلك`
 			})
-			.setImage(config.images.ticketMessageImage)
+			.setImage(ticketMessageImage.attachmentLocalUrl)
 			.setFooter({ iconURL: message.guild?.iconURL()!, text: `سنكون دائما سعداء لخدمتك` });
 
 		const buttons = config.ticket.category.map((button) => {
@@ -33,7 +35,8 @@ export class UserCommand extends Command {
 
 		return message.channel.send({
 			embeds: [embed],
-			components: [row]
+			components: [row],
+			files: [ticketMessageImage.attachment]
 		});
 	}
 }

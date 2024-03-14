@@ -9,9 +9,12 @@ import { cyan } from 'colorette';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ar';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { type APIUser, type Guild, type User } from 'discord.js';
+import { AttachmentBuilder, type APIUser, type Guild, type User } from 'discord.js';
 import { ApplyStatus } from '../db/models/apply';
 import { TicketAction } from './tickets';
+import fs from 'fs/promises';
+import { config } from '../config';
+import path from 'path';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ar');
@@ -107,4 +110,14 @@ export function translateTicketActions(action: TicketAction) {
 	}
 
 	return translatedAction;
+}
+
+export async function createAttachment(imageKey: keyof typeof config.images) {
+	const fileName = config.images[imageKey];
+	const fileBuffer = await resolveImage(fileName);
+	return { attachment: new AttachmentBuilder(fileBuffer, { name: fileName }), fileName, attachmentLocalUrl: `attachment://${fileName}` };
+}
+
+export function resolveImage(fileName: string) {
+	return fs.readFile(path.join(__dirname, '../images', fileName));
 }

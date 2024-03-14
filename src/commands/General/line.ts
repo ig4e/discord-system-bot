@@ -1,7 +1,7 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { Command } from '@sapphire/framework';
 import type { Message } from 'discord.js';
-import { config } from '../../config';
+import { createAttachment } from '../../lib/utils';
 
 @ApplyOptions<Command.Options>({
 	name: 'line',
@@ -10,6 +10,8 @@ import { config } from '../../config';
 })
 export class UserCommand extends Command {
 	public override async messageRun(message: Message) {
-		return message.channel.send({ files: [config.images.lineURL] });
+		const { attachment: lineImage } = await createAttachment('line');
+
+		return message.channel.send({ files: [lineImage] });
 	}
 }

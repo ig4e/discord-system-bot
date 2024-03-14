@@ -24,7 +24,7 @@ export class UserEvent extends Listener {
 
 		if (content.toLowerCase().startsWith('draw')) {
 			const userPrompt = content.slice(4).trim();
-			const response = await herc.drawImage({ model: 'v2', prompt: userPrompt });
+			const response = await herc.drawImage({ model: 'v3', prompt: userPrompt });
 			content = response.url;
 
 			return await loadingMessage.edit({
@@ -47,7 +47,7 @@ export class UserEvent extends Listener {
 		}
 
 		try {
-			const response = await herc.question({ model: 'v3-beta', content: content });
+			const response = await herc.question({ model: 'gemini', content: content });
 
 			content = response.reply;
 

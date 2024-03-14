@@ -15,7 +15,7 @@ export class MenuHandler extends InteractionHandler {
 		const [_customId, userId] = interaction.customId.split(':');
 		const roleId = interaction.values[0];
 		const roleData = config.roles.buy.find((role) => role.id === roleId)!;
-		const priceWithTax = Math.round(roleData.price + roleData.price * 0.05);
+		const priceWithTax = Math.floor((roleData.price * 20) / 19 + 1);
 		const member = await interaction.guild?.members.fetch(userId)!;
 
 		const [message] = await Promise.all([

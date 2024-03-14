@@ -32,23 +32,23 @@ export const config = {
 		warning: '#d97706'
 	},
 	images: {
-		lineURL: `https://media.discordapp.net/attachments/859712578087288852/1014460808014602240/Untitled-1.png`, // الصورة الي هتكون فل امبد بتاع التكت
-		ticketMessageImage: `https://cdn.discordapp.com/attachments/859712578087288852/1014459743609303100/Untitled-2.png`
+		line: `line.jpeg`, // الصورة الي هتكون فل امبد بتاع التكت
+		ticketMessage: `ticket-message.png`
 	},
 	channels: {
 		apply: {
 			send: '1191394688641531914', // روم تقديم الادارة
 			receive: '1191394688641531914' // روم استقبال التقديمات
 		},
-		autoLine: ['1191411144460797433916'] as string[], // روم الخط التلقائي
-		feedback: ['1191394688644441531914'] as string[], // روم الفيدباك
+		autoLine: ['1190496851225485312'] as string[], // روم الخط التلقائي
+		feedback: ['1190526152717119569'] as string[], // روم الفيدباك
 		suggestions: {
-			developer: '1190499941102125126', // روم الاتقراحات
-			bot: '1191394688641531914' // روم الاقتراحات
+			developer: '1190499930360512542', // روم الاتقراحات
+			bot: '1190499941102125126' // روم الاقتراحات
 		},
-		AIChat: ['1191411160797433916'] as string[], // شات ال ai
+		AIChat: ['1190735504413560933'] as string[], // شات ال ai
 		ticket: {
-			logs: '1191394688641531914', // لوج التكتات
+			logs: '1191233943782035479', // لوج التكتات
 			transcripts: '1191394688641531914' // ترانكسربت التكتات
 		}
 	},

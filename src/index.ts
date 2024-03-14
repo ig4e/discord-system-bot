@@ -38,7 +38,7 @@ const main = async () => {
 		await mongoose.connect(env.DATABASE_URL!);
 		client.logger.info('[DB] logged in');
         await client.login();
-		client.logger.info('logged in');
+		client.logger.info('logged in ', client.user?.displayName);
 	} catch (error) {
 		client.logger.fatal(error);
 		client.destroy();
