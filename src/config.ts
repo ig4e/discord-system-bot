@@ -32,8 +32,8 @@ export const config = {
 		warning: '#d97706'
 	},
 	images: {
-		line: `line.jpeg`, // الصورة الي هتكون فل امبد بتاع التكت
-		ticketMessage: `ticket-message.png`
+		line: `line.jpeg`,
+		ticketMessage: `ticket-message.png` // الصورة الي هتكون فل امبد بتاع التكت
 	},
 	channels: {
 		apply: {
